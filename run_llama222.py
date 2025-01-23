@@ -4,6 +4,7 @@ import streamlit as st
 from langchain.memory import ConversationBufferWindowMemory
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from llama_index.llms.llama_api import LlamaAPI
 from crewai import Agent, Task, Crew
 import pysqlite3
 import replicate
