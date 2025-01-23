@@ -9,8 +9,6 @@ import pysqlite3
 import sys
 sys.modules["sqlite3"] = pysqlite3
 
-# Set API Key, for now, it is set to "NA" since it's not used
-os.environ["OPENAI_API_KEY"] = "NA"
 
 # Streamlit app title
 st.title('Demo Chatbot')
