@@ -4,6 +4,7 @@ import streamlit as st
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from langchain_openai import ChatOpenAI
 from llama_index.llms.llama_api import LlamaAPI
 from crewai import Agent, Task, Crew
 import pysqlite3
@@ -24,12 +25,11 @@ input_text = st.text_input("Enter a math question or topic:")
 
 # Function to set up and get response from agents
 def get_response(question):
-    # Initialize LlamaAPI
-    if not api_key:
-        st.error("API key untuk LlamaAPI tidak ditemukan. Pastikan sudah diatur sebagai variabel lingkungan 'LL_API_KEY'.")
-        sys.exit(1)
-
-    llm = LlamaAPI(api_key=api_key)
+    # Initialize LLM from ChatOpenAI
+    llm = ChatOpenAI(
+        model="crewai-llama2",
+        base_url="https://12ef-103-162-62-56.ngrok-free.app/v1"
+    )
 
     # Define Professor Agent
     professor = Agent(
