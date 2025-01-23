@@ -5,6 +5,9 @@ from crewai import Agent, Task, Crew
 from langchain_openai import ChatOpenAI
 import streamlit as st
 import os
+import pysqlite3
+import sys
+sys.modules["sqlite3"] = pysqlite3
 
 # Set API Key, for now, it is set to "NA" since it's not used
 os.environ["OPENAI_API_KEY"] = "NA"
