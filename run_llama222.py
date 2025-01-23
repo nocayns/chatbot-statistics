@@ -2,15 +2,16 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain.memory import ConversationBufferWindowMemory
 from crewai import Agent, Task, Crew
-from langchain_openai import ChatOpenAI
 import streamlit as st
 import os
 import pysqlite3
 import sys
 sys.modules["sqlite3"] = pysqlite3
+from llama_index.llms.llama_api import LlamaAPI
 
 # Set API Key
-os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("LL_API_KEY")
+
 
 # Streamlit app title
 st.title('Demo Chatbot')
@@ -28,10 +29,7 @@ memory = ConversationBufferWindowMemory(
 # Function to set up and get response from agents
 def get_response(question):
     # Initialize LLM from ChatOpenAI
-    llm = ChatOpenAI(
-        model="crewai-llama2",
-        base_url="https://12ef-103-162-62-56.ngrok-free.app/v1"
-    )
+    llm = LlamaAPI(api_key=api_key)
 
     # Define Professor Agent
     professor = Agent(
