@@ -13,7 +13,7 @@ import replicate
 sys.modules["sqlite3"] = pysqlite3
 
 # Set up API key 
-os.getenv('REPLICATE_API_TOKEN')
+api_key = os.getenv('REPLICATE_API_TOKEN')
 
 # Streamlit app title
 st.title('🧮 Demo Chatbot: Math Assistant')
