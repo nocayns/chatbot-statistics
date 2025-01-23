@@ -2,3 +2,4 @@ streamlit
 langchain>=0.0.220
 openai
 python-dotenv
+crewai
