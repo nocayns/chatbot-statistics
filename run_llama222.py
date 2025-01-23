@@ -20,11 +20,6 @@ if not api_key:
 # Streamlit app title
 st.title('🧮 Demo Chatbot: Math Assistant')
 
-# Sidebar configuration for conversation memory
-with st.sidebar:
-    st.subheader("Chat Settings")
-    memory_size = st.slider("Memory size (number of interactions)", 1, 10, value=5)
-
 # User input field
 input_text = st.text_input("Enter a math question or topic:")
 
