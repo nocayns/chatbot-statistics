@@ -7,27 +7,16 @@ from langchain_core.output_parsers import StrOutputParser
 from llama_index.llms.llama_api import LlamaAPI
 from crewai import Agent, Task, Crew
 import pysqlite3
-import replicate
 
 # Replace sqlite3 module with pysqlite3 for compatibility
 sys.modules["sqlite3"] = pysqlite3
 
 # Set up API key 
-api_key = os.getenv('REPLICATE_API_TOKEN')
+api_key = os.getenv('LL_API_TOKEN')
 
 # Streamlit app title
 st.title('🧮 Demo Chatbot: Math Assistant')
 
-with st.sidebar:
-    selected_model = st.selectbox(
-        'Choose a Llama 2 model', 
-        ['Llama2-7B', 'Llama2-13B'], 
-        key='selected_model'
-    )
-    llm_model = {
-        'Llama2-7B': 'a16z-infra/llama7b-v2-chat:4f0a4744c7295c024a1de15e1a63c880d3da035fa1f49bfd344fe076074c8eea',
-        'Llama2-13B': 'a16z-infra/llama13b-v2-chat:df7690f1994d94e96ad9d568eac121aecf50684a0b0963b25a41cc40061269e5'
-    }[selected_model]
     
 # User input field
 input_text = st.text_input("Enter a math question or topic:")
@@ -42,7 +31,7 @@ memory = ConversationBufferWindowMemory(
 # Function to set up and get response from agents
 def get_response(question):
     # Initialize LlamaAPI
-    llm_model
+    llm = LlamaAPI(api_key=api_key)
 
     # Define Professor Agent
     professor = Agent(
@@ -53,7 +42,7 @@ def get_response(question):
                    "pertanyaan matematika dengan cara yang dapat dipahami semua orang."),
         allow_delegation=False,
         verbose=True,
-        llm=llm_model
+        llm=llm
     )
 
     # Define Reviewer Agent
@@ -65,7 +54,7 @@ def get_response(question):
                    "memverifikasi dan mengoreksi jawaban untuk memastikan bahwa siswa menerima jawaban yang benar."),
         allow_delegation=False,
         verbose=True,
-        llm=llm_model
+        llm=llm
     )
 
     # Define tasks for agents
