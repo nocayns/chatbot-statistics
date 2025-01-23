@@ -25,7 +25,11 @@ input_text = st.text_input("Enter a math question or topic:")
 # Function to set up and get response from agents
 def get_response(question):
     # Initialize LlamaAPI
-    llm = LlamaAPI(api_key=api_key)
+if not api_key:
+    st.error("API key untuk LlamaAPI tidak ditemukan. Pastikan sudah diatur sebagai variabel lingkungan 'LL_API_KEY'.")
+    sys.exit(1)
+
+llm = LlamaAPI(api_key=api_key)
 
     # Define Professor Agent
     professor = Agent(
