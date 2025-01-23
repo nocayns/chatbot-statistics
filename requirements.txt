@@ -7,3 +7,4 @@ chromadb==0.3.21
 requests==2.28.1
 bs4==0.0.2
 llama_index.llms.llama_api
+llama-index-program-openai
