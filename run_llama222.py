@@ -30,10 +30,8 @@ def get_response(question):
     # Define Professor Agent
     professor = Agent(
         role="Math Professor",
-        goal=("Memberikan solusi kepada para siswa yang bertanya tentang "
-              "pertanyaan matematika dan memberi mereka jawaban."),
-        backstory=("Anda adalah seorang profesor matematika yang bisa menyelesaikan "
-                   "pertanyaan matematika dengan cara yang dapat dipahami semua orang."),
+        goal=("Memberikan solusi kepada para siswa yang bertanya tentang pertanyaan matematika dan memberi mereka jawaban."),
+        backstory=("Anda adalah seorang profesor matematika yang bisa menyelesaikan pertanyaan matematika dengan cara yang dapat dipahami semua orang."),
         allow_delegation=False,
         verbose=True,
         llm=llm
@@ -42,10 +40,8 @@ def get_response(question):
     # Define Reviewer Agent
     reviewer = Agent(
         role="Reviewer",
-        goal=("Memeriksa dan mengoreksi jawaban yang diberikan oleh profesor "
-              "untuk memastikan keakuratannya, lalu memberikan jawaban yang benar setelah dikoreksi."),
-        backstory=("Anda adalah seorang ahli matematika yang teliti yang bertugas "
-                   "memverifikasi dan mengoreksi jawaban untuk memastikan bahwa siswa menerima jawaban yang benar."),
+        goal=("Memeriksa dan mengoreksi jawaban yang diberikan oleh profesor untuk memastikan keakuratannya, lalu memberikan jawaban yang benar setelah dikoreksi."),
+        backstory=("Anda adalah seorang ahli matematika yang teliti yang bertugas memverifikasi dan mengoreksi jawaban untuk memastikan bahwa siswa menerima jawaban yang benar."),
         allow_delegation=False,
         verbose=True,
         llm=llm
