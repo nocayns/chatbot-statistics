@@ -12,10 +12,7 @@ import replicate
 sys.modules["sqlite3"] = pysqlite3
 
 # Set up API key for LlamaAPI
-os.environ['REPLICATE_API_TOKEN'] = replicate_api
-if not replicate_api:
-    st.error("REPLICATE_API_TOKEN environment variable not set. Please set it to continue.")
-    st.stop()
+os.environ['REPLICATE_API_TOKEN']
 
 # Streamlit app title
 st.title('🧮 Demo Chatbot: Math Assistant')
