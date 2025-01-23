@@ -11,8 +11,8 @@ import replicate
 # Replace sqlite3 module with pysqlite3 for compatibility
 sys.modules["sqlite3"] = pysqlite3
 
-# Set up API key for LlamaAPI
-os.environ['REPLICATE_API_TOKEN']
+# Set up API key 
+os.getenv['REPLICATE_API_TOKEN']
 
 # Streamlit app title
 st.title('🧮 Demo Chatbot: Math Assistant')
