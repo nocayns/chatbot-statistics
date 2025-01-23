@@ -1,41 +1,52 @@
+import os
+import sys
+import streamlit as st
+from langchain.memory import ConversationBufferWindowMemory
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain.memory import ConversationBufferWindowMemory
 from crewai import Agent, Task, Crew
-import streamlit as st
-import os
-import pysqlite3
-import sys
-sys.modules["sqlite3"] = pysqlite3
 from llama_index.llms.llama_api import LlamaAPI
+import pysqlite3
 
-# Set API Key
+# Replace sqlite3 module with pysqlite3 for compatibility
+sys.modules["sqlite3"] = pysqlite3
+
+# Set up API key for LlamaAPI
 api_key = os.getenv("LL_API_KEY")
-
+if not api_key:
+    st.error("LL_API_KEY environment variable not set. Please set it to continue.")
+    st.stop()
 
 # Streamlit app title
-st.title('Demo Chatbot')
+st.title('🧮 Demo Chatbot: Math Assistant')
+
+# Sidebar configuration for conversation memory
+with st.sidebar:
+    st.subheader("Chat Settings")
+    memory_size = st.slider("Memory size (number of interactions)", 1, 10, value=5)
 
 # User input field
-input_text = st.text_input("Enter a math question or topic")
+input_text = st.text_input("Enter a math question or topic:")
 
 # Memory for conversation history
 memory = ConversationBufferWindowMemory(
     memory_key='chat_history',
-    k=5,  # Keeps the last 5 interactions in memory
+    k=memory_size,  # Keeps the last `memory_size` interactions in memory
     return_messages=True  # Ensures that the messages are returned
 )
 
 # Function to set up and get response from agents
 def get_response(question):
-    # Initialize LLM from ChatOpenAI
+    # Initialize LlamaAPI
     llm = LlamaAPI(api_key=api_key)
 
     # Define Professor Agent
     professor = Agent(
         role="Math Professor",
-        goal="Memberikan solusi kepada para siswa yang bertanya tentang pertanyaan matematika dan memberi mereka jawaban.",
-        backstory="Anda adalah seorang profesor matematika yang bisa menyelesaikan pertanyaan matematika dengan cara yang dapat dipahami semua orang.",
+        goal=("Memberikan solusi kepada para siswa yang bertanya tentang "
+              "pertanyaan matematika dan memberi mereka jawaban."),
+        backstory=("Anda adalah seorang profesor matematika yang bisa menyelesaikan "
+                   "pertanyaan matematika dengan cara yang dapat dipahami semua orang."),
         allow_delegation=False,
         verbose=True,
         llm=llm
@@ -44,21 +55,22 @@ def get_response(question):
     # Define Reviewer Agent
     reviewer = Agent(
         role="Reviewer",
-        goal="Memeriksa dan mengoreksi jawaban yang diberikan oleh profesor untuk memastikan keakuratannya, lalu memberikan jawaban yang benar setelah dikoreksi.",
-        backstory="Anda adalah seorang ahli matematika yang teliti yang bertugas memverifikasi dan mengoreksi jawaban untuk memastikan bahwa siswa menerima jawaban yang benar.",
+        goal=("Memeriksa dan mengoreksi jawaban yang diberikan oleh profesor "
+              "untuk memastikan keakuratannya, lalu memberikan jawaban yang benar setelah dikoreksi."),
+        backstory=("Anda adalah seorang ahli matematika yang teliti yang bertugas "
+                   "memverifikasi dan mengoreksi jawaban untuk memastikan bahwa siswa menerima jawaban yang benar."),
         allow_delegation=False,
         verbose=True,
         llm=llm
     )
 
-    # Define the task for the Math Professor Agent
+    # Define tasks for agents
     task_for_professor = Task(
         description=f"Berikan solusi untuk pertanyaan berikut: {question}",
         expected_output="Berikan jawaban yang jelas dan benar untuk pertanyaan.",
         agent=professor
     )
 
-    # Define the task for the Reviewer Agent
     task_for_reviewer = Task(
         description=f"Periksa jawaban dari profesor untuk pertanyaan: {question}.",
         expected_output="Hanya berikan jawaban yang telah dikoreksi, tanpa komentar tambahan.",
@@ -80,20 +92,24 @@ def get_response(question):
 
 # Function to generate response based on the user's question
 def generate_response(question):
-    response = get_response(question)
-    return response
+    try:
+        response = get_response(question)
+        return response
+    except Exception as e:
+        st.error(f"Error generating response: {e}")
+        return None
 
 # Handle submit logic
-def handle_submit(response):
+def handle_submit(question):
     with st.spinner('Mohon menunggu sebentar...'):
-        # Generate the response
-        response = generate_response(response)
-        # Display the result
-        st.write(response)
+        response = generate_response(question)
+        if response:
+            st.success("Jawaban telah dihasilkan:")
+            st.write(response)
 
 # Submit button logic
 if st.button("Submit"):
     if input_text:
-        handle_submit(input_text)  
+        handle_submit(input_text)
     else:
         st.warning("Please enter a question before submitting.")
