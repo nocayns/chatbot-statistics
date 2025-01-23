@@ -28,7 +28,7 @@ def get_response(question):
     # Initialize LLM from ChatOpenAI
     llm = ChatOpenAI(
         model="crewai-llama2",
-        base_url="https://8ac6-103-162-62-56.ngrok-free.app"
+        base_url="https://12ef-103-162-62-56.ngrok-free.app/v1"
     )
 
     # Define Professor Agent
