@@ -1,7 +1,7 @@
 import os
 import sys
 import streamlit as st
-from langchain.memory import ConversationBufferWindowMemory
+
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from llama_index.llms.llama_api import LlamaAPI
@@ -21,12 +21,6 @@ st.title('🧮 Demo Chatbot: Math Assistant')
 # User input field
 input_text = st.text_input("Enter a math question or topic:")
 
-# Memory for conversation history
-memory = ConversationBufferWindowMemory(
-    memory_key='chat_history',
-    k=5,  # Keeps the last `memory_size` interactions in memory
-    return_messages=True  # Ensures that the messages are returned
-)
 
 # Function to set up and get response from agents
 def get_response(question):
