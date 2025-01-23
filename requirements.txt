@@ -3,3 +3,5 @@ langchain>=0.0.220
 openai
 python-dotenv
 crewai
+pysqlite3-binary
+chromadb
