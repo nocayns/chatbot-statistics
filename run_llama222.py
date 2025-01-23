@@ -10,7 +10,7 @@ import sys
 sys.modules["sqlite3"] = pysqlite3
 
 # Set API Key
-os.environ["OPENAI_API_KEY"]
+os.getenv('OPENAI_API_KEY')
 
 # Streamlit app title
 st.title('Demo Chatbot')
