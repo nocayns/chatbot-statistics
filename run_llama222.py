@@ -5,16 +5,16 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from crewai import Agent, Task, Crew
-from llama_index.llms.llama_api import LlamaAPI
 import pysqlite3
+import replicate
 
 # Replace sqlite3 module with pysqlite3 for compatibility
 sys.modules["sqlite3"] = pysqlite3
 
 # Set up API key for LlamaAPI
-api_key = os.getenv("LL_API_KEY")
-if not api_key:
-    st.error("LL_API_KEY environment variable not set. Please set it to continue.")
+os.environ['REPLICATE_API_TOKEN'] = replicate_api
+if not replicate_api:
+    st.error("REPLICATE_API_TOKEN environment variable not set. Please set it to continue.")
     st.stop()
 
 # Streamlit app title
