@@ -2,7 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain.memory import ConversationBufferWindowMemory
 from crewai import Agent, Task, Crew
-from ollama import ChatCompletion
+from langchain_openai import ChatOpenAI
 import streamlit as st
 import os
 import pysqlite3
@@ -28,7 +28,7 @@ memory = ConversationBufferWindowMemory(
 # Function to set up and get response from agents
 def get_response(question):
     # Initialize LLM from ChatOpenAI
-    llm = ChatCompletion(
+    llm = ChatOpenAI(
         model="crewai-llama2",
         base_url="https://12ef-103-162-62-56.ngrok-free.app/v1"
     )
