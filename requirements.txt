@@ -4,4 +4,5 @@ openai
 python-dotenv
 crewai
 pysqlite3-binary
-chromadb
+chromadb==0.3.21
+
